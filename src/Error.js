@@ -6,7 +6,9 @@ const Error = () => {
     return (
         <div className="error-png">
         <img className=""src={Errors} />
+       
         </div>
+        
         
     )
 }
