@@ -1,4 +1,4 @@
-import { restaurantList2 } from "../constants";
+import { restaurantList2 } from "../utils/constants";
 import RestaurentCard from "./RestaurentCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";

@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import Logo from "../components/images/burger_king.png";
 import { Link } from "react-router-dom";
-import UserContext from "../utils/UserContext";
+import UserContext from "../context/UserContext";
 import cart from "./images/shopping-bag.png";
 import { useSelector } from "react-redux";
 

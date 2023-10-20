@@ -1,6 +1,6 @@
-import { IMG_CDN_URL } from "../constants";
+import { IMG_CDN_URL } from "../utils/constants";
 import { useContext } from "react";
-import UserContext from "../utils/UserContext";
+import UserContext from "../context/UserContext";
 
 const RestaurentCard = ({
   name,
