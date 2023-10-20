@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SWIGGY_RESTAURANT_DETAILS_API, IMG_CDN_URL } from "../utils/constants";
 import Shimmer from "./Shimmer";
-import useRestaurantMenu from "../hooks/useRestaurant";
+import useRestaurantMenu from "./hooks/useRestaurantMenu";
 import RestaurantCategory from "./RestaurantCategory";
 import MenuShimmer from "./MenuShimmer";
 

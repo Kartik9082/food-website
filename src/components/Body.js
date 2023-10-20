@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnline from "../utils/isOnline";
+import { SWIGGY_API } from "../utils/constants";
 
 function filterData(searchText, restaurants) {
   const filterData = restaurants.filter((restaurant) =>
@@ -24,9 +25,7 @@ const Body = () => {
   }, []);
 
   async function getRestaurant() {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6902392&lng=77.3403391&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
-    );
+    const data = await fetch(SWIGGY_API);
     const JSON = await data.json();
     // console.log(JSON);
     setAllRestaurants(
@@ -45,7 +44,7 @@ const Body = () => {
 
   // if(filteredRestaurants.length===0) return <h1>No Restaurant Found</h1>
 
-  return (allRestaurants.length === 0) ? (
+  return allRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="">
@@ -68,9 +67,8 @@ const Body = () => {
         </button>
 
         <button
-        className="p-2 bg-slate-950 text-white hover:bg-slate-600 active:bg-slate-700 focus:outline-none focus:ring-violet-300 rounded-lg transition duration-300 ease-in-out"
+          className="p-2 bg-slate-950 text-white hover:bg-slate-600 active:bg-slate-700 focus:outline-none focus:ring-violet-300 rounded-lg transition duration-300 ease-in-out"
           onClick={() => {
-            
             const filteredList = filteredRestaurants.filter(
               (res) => res.info.avgRating > 4
             );
