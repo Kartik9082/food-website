@@ -1,184 +1,90 @@
-import React, { useEffect } from "react";
-import { LiaRupeeSignSolid } from "react-icons/lia";
-import { RxCross1 } from "react-icons/rx";
-import { useNavigate, NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import AlternateMenuImg from ".././img/food-alternate-img.jpg";
-import CartImg from ".././img/cart-img.webp";
-import { menuImgUrl, restroImgUrl } from "../utils/constants";
-import { BsFillSuitHeartFill } from "react-icons/bs";
+import React from "react";
+// import './contact.css'
+import { MdOutlineEmail } from "react-icons/md";
+import { BsWhatsapp } from "react-icons/bs";
+import { useRef } from "react";
+import emailjs from "emailjs-com";
 
-import {
-  addToCart,
-  clearCart,
-  getTotals,
-  descreaseCartItem,
-  removeCartItem,
-} from "./Redux/features/cartSlice";
+const Contact = () => {
+  const form = useRef();
 
-const Cart = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const sendEmail = (e) => {
+    e.preventDefault();
 
-  const goBack = () => {
-    navigate(-1);
+    emailjs
+      .sendForm(
+        "service_tj91l9w",
+        "template_p2e7qk8",
+        form.current,
+        "B3BibiKdnE25z77QR"
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+
+    e.target.reset();
+    alert("thanks for sending the message.");
   };
 
-  const { cartItems, totalAmount, restaurantInfo } = useSelector(
-    (store) => store.cart
-  );
-
-  useEffect(() => {
-    dispatch(getTotals());
-  }, [cartItems, dispatch]);
-
   return (
-    <>
-      {cartItems.length > 0 ? (
-        <div className="md:mx-28 mt-1 md:mt-6 flex md:gap-10 flex-col lg:flex-row ">
-          <div className="lg:w-3/4 cart-scroll">
-            {cartItems &&
-              cartItems.map((item) => {
-                return (
-                  <div
-                    className="flex mb-5 items-center gap-2 md:gap-3"
-                    key={item.id}
-                  >
-                    <div className="w-[18%] ">
-                      <img
-                        src={
-                          item.imageId
-                            ? menuImgUrl + item.imageId
-                            : AlternateMenuImg
-                        }
-                        className="rounded-md"
-                        alt="menu"
-                      />
-                    </div>
+    <section id="contact" className="md:mt-10 lg:my-8 lg:mx-10 about-scroll">
+      <h5 className="text-2xl font-bold text-slate-400 mx-auto w-fit">Get in Touch!</h5>
+ 
+      <div className="flex lg:mx-[20%] my-5 md:my-8 gap-7 justify-between flex-col md:flex-row">
 
-                    <div className="w-[60%] md:w-[52%] ">
-                      <p className="text-base md:mb-2">{item.name}</p>
-                      <div className="flex font-bold items-center mx-auto">
-                        <LiaRupeeSignSolid /> {item.price / 100}
-                      </div>
-                    </div>
+        <div className="flex flex-col gap-2 w-full md:w-fit">
 
-                    <div className="flex gap-2 w-[23%] md:w-[30%]  flex-col md:flex-row items-center">
-                      <div className="border-green-200 rounded shadow mx-auto text-xs md:text-base">
-                        <button
-                          className="text-lg px-2 hover:text-green-700 "
-                          onClick={() => dispatch(descreaseCartItem(item))}
-                        >
-                          -
-                        </button>
-                        <span className="px-1 md:px-2 font-medium">
-                          {item.itemCount}
-                        </span>
-                        <button
-                          className="font-medium px-2 hover:text-green-700"
-                          onClick={() => dispatch(addToCart(item))}
-                        >
-                          +
-                        </button>
-                      </div>
+          <article className="bg-green-100 border-2 border-green-400 hover:shadow-md flex flex-col items-center w-full md:w-64 p-7 lg:p-5 text-lg rounded-md">
+            <MdOutlineEmail className="contact__option-icon" />
+            <h4 className="font-bold">Email</h4>
+            <h5 className="font-medium text-base">rakhi.kumaribce@gmail.com</h5>
+            <a href="mailto:rakhi.kumaribce@gmail.com" target="_blank" className="text-sm hover:text-green-700 font-medium">
+              Send a message
+            </a>
+          </article>
 
-                      <div
-                        onClick={() => dispatch(removeCartItem(item))}
-                        className="hidden md:flex transition-all hover:text-red-600 cursor-pointer p-2 rounded my-auto"
-                      >
-                        <RxCross1 />
-                      </div>
-
-                      <div
-                        onClick={() => dispatch(removeCartItem(item))}
-                        className="md:hidden transition-all w-18 text-red-600 cursor-pointer rounded my-auto px-1 shadow text-sm"
-                      >
-                        Remove
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-
-          <div className="flex flex-col lg:w-2/5 ">
-            <div className="p-4 text-center bg-green-100  h-fit">
-              <div className="font-medium text-xl ">
-                <div className="flex gap-2 mb-2">
-                  <img
-                    src={restroImgUrl + restaurantInfo.cloudinaryImageId}
-                    className="h-14 rounded shadow"
-                    alt="restro"
-                  />
-                  <div className="text-left flex flex-col justify-center ">
-                    <p className="text-base font-bold">{restaurantInfo.name}</p>
-                    <div className="flex">
-                      <span className="text-sm ">
-                        {restaurantInfo.areaName},{" "}
-                      </span>
-                      <span className="text-sm">
-                        &nbsp;{restaurantInfo.city}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  <p className="">To Pay </p>
-                  <div className="flex items-center">
-                    <LiaRupeeSignSolid /> {totalAmount.toFixed(0)}
-                  </div>
-                </div>
-              </div>
-
-              <button
-                className="bg-green-600 text-white p-2 w-full mt-3 hover:shadow-xl shadow-md transition-all"
-                onClick={() => alert("Order Successful 🤤😜")}
-              >
-                Checkout
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 mt-3">
-              <button
-                className="bg-green-100 p-2 text-black hover:bg-green-600 hover:shadow-md hover:text-white transition-all shadow text-sm md:text-base"
-                onClick={() => goBack()}
-              >
-                Continue Ordering
-              </button>
-
-              <button
-                className="bg-red-100 p-2 text-black hover:bg-red-600 hover:shadow-md hover:text-white transition-all shadow text-sm md:text-base"
-                onClick={() => dispatch(clearCart())}
-              >
-                Clear Cart
-              </button>
-            </div>
-          </div>
+          <article className="bg-green-100 border-2 border-green-400 hover:shadow-md flex flex-col items-center w-full md:w-64 p-5 py-10 lg:py-8 rounded-md text-lg">
+            <BsWhatsapp className="contact__option-icon" />
+            <h4 className="font-bold">WhatsApp</h4>
+            <a
+              href="https://api.whatsapp.com/send?phone=8210703715"
+              target="_blank"
+              className="text-sm hover:text-green-700 font-medium"
+            >
+              Send a message
+            </a>
+          </article>
         </div>
-      ) : (
-        <div className="mt-10 flex items-center justify-center flex-col gap-4">
-          <img src={CartImg} className="md:w-[30%]" alt="cart" />
-          <p className="text-xl font-bold text-green-700">Your Cart is Empty</p>
-          <button className="hover:shadow-xl capitalize transition-all p-2 px-4 bg-green-700 rounded w-[fit-content] text-white text-sm font-bold">
-            <NavLink to="/restaurants">See Restaurants Near You!</NavLink>
+
+        <form ref={form} onSubmit={sendEmail} className="flex gap-2 flex-col w-full">
+          <input
+            type="text"
+            name="name"
+            placeholder="Your Full Name"
+            required
+            className="border-green-400 border-2 hover:shadow-md p-3 rounded-md focus:outline-none"
+          />
+          <input type="text" name="email" placeholder="Your Email" required className="border-green-400 border-2 p-3 rounded-md focus:outline-none hover:shadow-md"/>
+          <textarea
+            className="p-3 border-green-400 border-2 rounded-md focus:outline-none hover:shadow-md"
+            name="message"
+            rows="6"
+            placeholder="Your Message"
+            required
+
+          ></textarea>
+          <button type="submit" className="p-3 rounded-md font-medium hover:shadow-md hover:font-bold  bg-green-200 border-2 border-green-400">
+            Send Message
           </button>
-        </div>
-      )}
-      <div className="flex justify-center font-medium items-center py-2 mt-4 px-4 mx-auto w-fit text-lg ">
-        Made with &nbsp;
-        <BsFillSuitHeartFill className="text-green-700" />
-        &nbsp; by&nbsp;
-        <a
-          href="https://github.com/rakhikeshri?tab=repositories"
-          className="font-bold"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Rakhi Keshri
-        </a>
+        </form>
       </div>
-    </>
+    </section>
   );
 };
 
-export default Cart;
+export default Contact;
